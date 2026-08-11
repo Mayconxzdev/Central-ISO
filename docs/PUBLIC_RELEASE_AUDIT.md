@@ -8,14 +8,16 @@ A versão pública foi reconstruída a partir do piloto técnico, preservando o 
 
 ## Validações executadas
 
-- `python -m pytest -q` → **30 passed, 1 skipped**;
+- `python -m pytest -q` em instalação limpa da CI → **32 passed**;
 - `python -m compileall -q app scripts` → aprovado;
 - busca textual por IPs privados → nenhum encontrado na base publicável;
 - busca por nomes corporativos no código/texto → nenhum encontrado na base publicável;
 - busca por padrões comuns de GitHub/OpenAI/AWS/Bearer tokens → nenhum encontrado;
 - `__pycache__`, `.pytest_cache`, bancos locais e binários removidos;
 - `desktop/src-tauri/target/` removido do pacote público e coberto por `.gitignore`;
-- workflows n8n revisados sem credenciais embutidas.
+- workflows n8n revisados sem credenciais embutidas;
+- `docker compose config --quiet` → aprovado na CI;
+- smoke test da API `/api/v1/health` → aprovado na CI.
 
 ## Delimitação de evidência
 
