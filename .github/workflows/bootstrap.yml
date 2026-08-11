@@ -22,6 +22,29 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Verify release chunks
+        shell: bash
+        run: |
+          cd .bootstrap
+          cat > /tmp/chunks.sha256 <<'EOF'
+          24e8840b0921254a06bf792944c780fa4a6c62503d07d71997bada4d43fc3771  part-01
+          35f30c9a592ea34b30b43c656081c1ba7d829b88d73b357443d4e397861170bf  part-02
+          e9db40bde777b49639c79f70c32a31e160401b8ea7fe8af2f0c54c08ea359880  part-03
+          ab4513e48c68ffeecca3f3574eb1fa6bdc32d16745c322a5f1d4ecbb39178843  part-04
+          bf2456fa26ce9ba81366f51c85c65de18ab698916045898b62ab7fcece2f84c9  part-05
+          9cd5b5785d66a395ea1d4ff00dd736053010d068c714aa3b71d631f3785f85cb  part-06
+          31e7e6e5043ec5d74d2ba9b5f5981afeb8262aeeb8a8f1aac30f475b98e2a4f8  part-07-01
+          ae690c18a71d41e6ef33aca19ca71739e3f4bfd5867a32ae56eccc08ef8a084e  part-07-02
+          cda4c5a229c5ba49959eb7f9a8f6aaff39220319c5fa326d64c67eae501dc3b1  part-07-03
+          a043d7d993f266d99501f2e1315d53a2c44112cf2b3e693d17c86e0569ea1081  part-07-04
+          1f89cdd18fbb3df09ea96abe511696416867c43408c126815721ec64aac1734b  part-08-01
+          e9bb499b9cdceb57f5ad49790859227c7aabdd9cbe717bf2f728a0f0d2c3ffb2  part-08-02
+          a7d73f931cead598d1bee8d8ce57ab94fd609a3415e40334d9e854ecf525f9db  part-08-03
+          d2549905ea4c17b5d9f691abf063e68d92beeb09cbd4e6546b9b1b0a69fc3648  part-08-04
+          EOF
+          sha256sum -c /tmp/chunks.sha256
+          cd ..
+
       - name: Rebuild and extract sanitized release
         shell: bash
         run: |
@@ -29,8 +52,6 @@ jobs:
           xz --test /tmp/central-iso.tar.xz
           tar -xJf /tmp/central-iso.tar.xz -C .
           rm -rf .bootstrap
-          # The permanent CI workflow is published separately through the
-          # authenticated GitHub connector after the source tree is validated.
           rm -f .github/workflows/ci.yml
 
       - name: Validate release before publishing
@@ -60,5 +81,3 @@ jobs:
           fi
           git commit -m 'feat: publish sanitized Central ISO portfolio release'
           git push origin HEAD:main
-
-# All sanitized release chunks are now staged; this edit triggers the final bootstrap.
