@@ -3,7 +3,7 @@
 ## Resultado desta versão pública
 
 ```text
-30 passed, 1 skipped
+32 passed
 ```
 
 Executado com:
@@ -32,4 +32,4 @@ python -m compileall -q app scripts
 
 ## CI
 
-A GitHub Action executa instalação limpa, `compileall`, `pytest` e uma verificação de publicação para IPs privados.
+A GitHub Action executa instalação limpa, `compileall`, `pytest`, public-safety scan, validação do `docker compose config` e smoke test da API `/api/v1/health`.
