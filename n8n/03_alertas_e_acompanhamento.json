@@ -1,0 +1,113 @@
+{
+  "name": "Central ISO — Alertas e Acompanhamento",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "02dadbdb-08b4-4201-ad67-abc0acc3d976",
+      "name": "Verificar alertas diariamente",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://central-iso-api:8877/api/v1/dashboard/priorities?limit=30",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "6bfad80d-6415-4842-b4fe-2bae8cb0a886",
+      "name": "Buscar prioridades",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -180,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(i => i.json);\nconst critical = items.filter(i => i.severity === 'crítico');\nreturn [{json:{subject:`Central ISO: ${critical.length} item(ns) crítico(s)`, critical, total:items.length, generated_at:new Date().toISOString()}}];"
+      },
+      "id": "e5ae9e03-0a44-4a10-b3b5-c2b78d24978f",
+      "name": "Montar resumo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        100,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f84d9907-e6f1-428c-b0d5-c4f5a16854d4",
+      "name": "CONFIGURAR SMTP OU E-MAIL CORPORATIVO",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        380,
+        0
+      ],
+      "notesInFlow": true,
+      "notes": "Substitua este nó por Send Email após configurar o SMTP corporativo. Evite alertas repetidos; grave notification_events antes de enviar."
+    }
+  ],
+  "connections": {
+    "Verificar alertas diariamente": {
+      "main": [
+        [
+          {
+            "node": "Buscar prioridades",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar prioridades": {
+      "main": [
+        [
+          {
+            "node": "Montar resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar resumo": {
+      "main": [
+        [
+          {
+            "node": "CONFIGURAR SMTP OU E-MAIL CORPORATIVO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": ""
+  },
+  "versionId": "5808e546-54eb-4c51-ab1f-ae3eb7729bbc",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

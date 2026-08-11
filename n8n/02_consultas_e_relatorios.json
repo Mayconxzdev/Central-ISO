@@ -1,0 +1,92 @@
+{
+  "name": "Central ISO — Consultas e Relatórios",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "central-iso-consulta",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "77a6b08b-3e21-48bd-ac54-02db3fbb85db",
+      "name": "Receber consulta do app",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -420,
+        0
+      ],
+      "webhookId": "5949cfb7-a8cc-4124-b0a1-1ac3f65faa2d"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://central-iso-api:8877/api/v1/assistant/query",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ question: $json.body.question || $json.question }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "a94ccc4a-b561-4dcd-8fe5-6b7a00b2673d",
+      "name": "Consultar documentos",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "92c6d56c-dc6d-4b60-be0a-1a63f8b9ce64",
+      "name": "Responder ao aplicativo",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        180,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Receber consulta do app": {
+      "main": [
+        [
+          {
+            "node": "Consultar documentos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar documentos": {
+      "main": [
+        [
+          {
+            "node": "Responder ao aplicativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": ""
+  },
+  "versionId": "266a13fb-3c02-4dd3-87c2-4bcfba4e9ec9",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

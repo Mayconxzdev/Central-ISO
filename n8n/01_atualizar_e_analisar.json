@@ -1,0 +1,136 @@
+{
+  "name": "Central ISO — Atualizar e Analisar",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "b31779e0-23ff-4faf-b9a1-a07f9bc6dd89",
+      "name": "A cada 30 minutos",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -420,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "central-iso-atualizar",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "f7109baf-1055-4cc6-b475-9db67e82b9e4",
+      "name": "Atualização manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -420,
+        100
+      ],
+      "webhookId": "395d0051-c349-4ee2-8a8f-1ba6c839b4fa"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://central-iso-api:8877/api/v1/scans?mode=incremental",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "1109b170-c33f-4d4b-abfb-b5747bd01c0f",
+      "name": "Solicitar varredura à API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -120,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d51504ff-83ac-4e16-85fc-7fcce106af17",
+              "name": "resultado",
+              "value": "={{ $json }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "55a3c429-c83f-4bb7-989e-2c8ee8eb76dc",
+      "name": "Registrar resultado",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "A cada 30 minutos": {
+      "main": [
+        [
+          {
+            "node": "Solicitar varredura à API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualização manual": {
+      "main": [
+        [
+          {
+            "node": "Solicitar varredura à API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solicitar varredura à API": {
+      "main": [
+        [
+          {
+            "node": "Registrar resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": ""
+  },
+  "versionId": "dbf44ec9-b58c-495a-a93a-c4190765b8bc",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

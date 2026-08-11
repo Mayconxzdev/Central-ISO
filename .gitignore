@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Runtime / data
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+cache/
+backups/
+logs/
+
+# Rust / Tauri
+desktop/src-tauri/target/
+*.pdb
+*.exe
+*.msi
+*.msix
+
+# Node / editor
+node_modules/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local inventories / reconciliation outputs
+inventory_reconciliation_*.json
+central_iso_demo.db

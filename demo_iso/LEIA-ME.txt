@@ -1,0 +1,2 @@
+DADOS DE DEMONSTRAÇÃO — NÃO SÃO DOCUMENTOS OFICIAIS.
+Esta pasta existe para testar o piloto sem depender do compartilhamento real.

@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: central_iso
+      POSTGRES_USER: central_iso
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-central_iso_demo_change_me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U central_iso -d central_iso"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  central-iso-api:
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:-demo}
+      APP_DATA_MODE: ${APP_DATA_MODE:-demo}
+      API_PORT: 8877
+      DATABASE_URL: postgresql+psycopg://central_iso:${POSTGRES_PASSWORD:-central_iso_demo_change_me}@postgres:5432/central_iso
+      ISO_SHARE_PATH: /quality_read
+      AI_MODE: disabled
+    ports:
+      - "8877:8877"
+    volumes:
+      # A fonte documental é sempre montada como somente leitura.
+      - ${ISO_HOST_MOUNT:-./demo_iso}:/quality_read:ro
+      - central_iso_cache:/app/cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8877/api/v1/health')"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+
+  n8n:
+    image: n8nio/n8n:2.32.6
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PORT: 5678
+      N8N_PROTOCOL: ${N8N_PROTOCOL:-http}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:-central_iso_demo_change_this_key}
+      GENERIC_TIMEZONE: America/Sao_Paulo
+      N8N_RESTRICT_FILE_ACCESS_TO: /n8n-files
+      N8N_DEFAULT_BINARY_DATA_MODE: filesystem
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ${ISO_HOST_MOUNT:-./demo_iso}:/n8n-files/quality:ro
+    depends_on:
+      central-iso-api:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  n8n_data:
+  central_iso_cache:

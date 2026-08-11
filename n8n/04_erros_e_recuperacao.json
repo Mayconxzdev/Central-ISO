@@ -1,0 +1,103 @@
+{
+  "name": "Central ISO — Erros e Recuperação",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ba987f9d-2d3a-4925-b88e-30b4d9f2612e",
+      "name": "Receber erro de workflow",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1f448fe-c839-4a69-8f96-de50260f53fc",
+              "name": "workflow",
+              "value": "={{ $json.workflow.name }}",
+              "type": "string"
+            },
+            {
+              "id": "3e19e902-7d25-478c-a376-e44befeff9e5",
+              "name": "execution",
+              "value": "={{ $json.execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "70f8d337-5ed7-466c-91e4-ab9261924002",
+              "name": "error",
+              "value": "={{ $json.execution.error.message }}",
+              "type": "string"
+            },
+            {
+              "id": "7519618b-9e95-492a-9897-66e9d59a0081",
+              "name": "occurred_at",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aee1878a-a097-4660-ba6a-28bbaf212162",
+      "name": "Normalizar erro",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -60,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "f211a120-a68d-4305-abc1-e7d1c272ca8a",
+      "name": "REGISTRAR/AVISAR TI",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "notesInFlow": true,
+      "notes": "Conectar a um endpoint de erros da API e/ou ao e-mail da TI. Definir este workflow como Error Workflow dos outros três."
+    }
+  ],
+  "connections": {
+    "Receber erro de workflow": {
+      "main": [
+        [
+          {
+            "node": "Normalizar erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar erro": {
+      "main": [
+        [
+          {
+            "node": "REGISTRAR/AVISAR TI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "92d2a72e-eaf8-461e-b29f-23325c36ce10",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

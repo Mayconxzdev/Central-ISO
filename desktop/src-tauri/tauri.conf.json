@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Central ISO",
+  "version": "0.1.0",
+  "identifier": "dev.maycon.centraliso",
+  "build": {
+    "devUrl": "http://127.0.0.1:8877",
+    "frontendDist": "http://127.0.0.1:8877"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Central ISO",
+        "width": 1440,
+        "height": 920,
+        "minWidth": 1024,
+        "minHeight": 700,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' http://127.0.0.1:8877; connect-src 'self' http://127.0.0.1:8877; img-src 'self' data: http://127.0.0.1:8877; style-src 'self' 'unsafe-inline' http://127.0.0.1:8877; script-src 'self' 'unsafe-inline' http://127.0.0.1:8877"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "shortDescription": "Central de apoio ao Sistema de Gestão da Qualidade",
+    "longDescription": "Aplicativo interno para leitura, organização, alertas e evidências do SGQ da organização.",
+    "windows": {
+      "wix": null,
+      "nsis": {
+        "displayLanguageSelector": false,
+        "installerIcon": null
+      }
+    }
+  }
+}

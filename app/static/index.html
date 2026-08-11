@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Central ISO</title>
+  <link rel="icon" href="/static/assets/logo.svg" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div id="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="/static/assets/logo.svg" alt="Central ISO" />
+        <div><strong>Central ISO</strong><span>organização</span></div>
+      </div>
+      <nav id="nav">
+        <button class="nav-item active" data-page="home"><span>IN</span>Início</button>
+        <button class="nav-item" data-page="pending"><span>PD</span>Pendências <b id="nav-pending-count" class="badge">0</b></button>
+        <button class="nav-item" data-page="certificates"><span>CE</span>Certificados</button>
+        <button class="nav-item" data-page="ncs"><span>NC</span>Não conformidades</button>
+        <button class="nav-item" data-page="documents"><span>DO</span>Documentos</button>
+        <button class="nav-item" data-page="assistant"><span>BU</span>Busca nos documentos</button>
+        <button class="nav-item" data-page="history"><span>HI</span>Histórico</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div>Central ISO</div>
+        <small id="sidebar-operator"></small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div id="demo-banner" class="demo-banner hidden">Modo demonstração</div>
+      <header class="topbar">
+        <div class="global-search-wrap">
+          <span>Buscar</span>
+          <input id="global-search" placeholder="Buscar documento, certificado ou NC" />
+          <div id="global-search-results" class="search-results hidden"></div>
+        </div>
+        <div id="share-status" class="status-chip"><i></i><span>Verificando pasta ISO...</span></div>
+        <div class="user-area">
+          <span id="operator-display" class="operator-chip"></span>
+        </div>
+      </header>
+
+      <section id="page-container" class="page-container"></section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/static/app.js?v=20260622-visual"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+numero;fornecedor;componente;validade;situacao
+CPEx DEMO-0001X;FABRICANTE DEMO A;Caixa de passagem Ex;06/02/2026;validade expirada
+TÜV DEMO-0002X;FABRICANTE DEMO B;Componente Ex;06/02/2026;validade expirada
+DNV DEMO-0003X;FABRICANTE DEMO C;Motor elétrico Ex;10/12/2025;validade expirada
+CPEx DEMO-0004X;FABRICANTE DEMO D;Plugues e tomadas Ex;29/11/2027;vigente
