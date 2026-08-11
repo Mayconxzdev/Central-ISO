@@ -20,7 +20,7 @@ The project came from a real industrial-quality problem: controlled documents, c
 - n8n workflows for scheduling, queries, alerts and recovery;
 - Tauri v2 desktop wrapper;
 - Docker Compose environment;
-- automated validation: **30 passed, 1 skipped** in this public build.
+- automated validation: **32 tests passed** in the clean GitHub CI build.
 
 ## Architecture
 
