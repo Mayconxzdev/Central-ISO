@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/bootstrap.yml'
-      - '.bootstrap/central-iso.tar.xz.b64'
+      - '.bootstrap/part-*'
 
 permissions:
   contents: write
@@ -22,12 +22,16 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Extract sanitized release
+      - name: Rebuild and extract sanitized release
         shell: bash
         run: |
-          base64 --decode .bootstrap/central-iso.tar.xz.b64 > /tmp/central-iso.tar.xz
+          cat .bootstrap/part-* | base64 --decode > /tmp/central-iso.tar.xz
+          xz --test /tmp/central-iso.tar.xz
           tar -xJf /tmp/central-iso.tar.xz -C .
           rm -rf .bootstrap
+          # The permanent CI workflow is published separately through the
+          # authenticated GitHub connector after the source tree is validated.
+          rm -f .github/workflows/ci.yml
 
       - name: Validate release before publishing
         shell: bash
