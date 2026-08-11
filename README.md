@@ -28,7 +28,7 @@ A proposta foi transformar parte desse trabalho em um pipeline determinístico e
 - workflows n8n para agendamento, consultas, alertas e recuperação;
 - wrapper desktop com Tauri v2;
 - Docker Compose para execução reproduzível;
-- suíte automatizada com **30 testes aprovados e 1 teste ignorado** na auditoria desta versão pública.
+- suíte automatizada com **32 testes aprovados** na CI da versão pública;
 
 ## Demonstração pública
 
@@ -140,10 +140,10 @@ python -m compileall -q app scripts
 Resultado validado nesta publicação:
 
 ```text
-30 passed, 1 skipped
+32 passed
 ```
 
-A CI também executa um **public-safety scan** para bloquear referências a IPs privados, nomes corporativos/terceiros removidos da demo e padrões comuns de segredos antes de aceitar alterações.
+A CI também valida `Docker Compose`, executa um smoke test real da API e roda um **public-safety scan** para bloquear referências a IPs privados, nomes corporativos/terceiros removidos da demo e padrões comuns de segredos antes de aceitar alterações.
 
 ## Contexto profissional do case
 
