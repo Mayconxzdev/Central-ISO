@@ -1,77 +1,81 @@
 # Central ISO
 
-> Piloto técnico de automação documental para Sistema de Gestão da Qualidade (SGQ), com varredura read-only, regras determinísticas, rastreabilidade, alertas e orquestração via n8n.
+> Piloto técnico que criei a partir de um problema real do setor de Qualidade: documentos, certificados e não conformidades espalhados em pasta de rede e conferidos manualmente.
 
 [![CI](https://github.com/Mayconxzdev/Central-ISO/actions/workflows/ci.yml/badge.svg)](https://github.com/Mayconxzdev/Central-ISO/actions/workflows/ci.yml)
-![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
-![n8n](https://img.shields.io/badge/n8n-Automa%C3%A7%C3%A3o-EA4B71?logo=n8n&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-![Tauri](https://img.shields.io/badge/Tauri-v2-24C8DB?logo=tauri&logoColor=white)
 
-## Visão geral
+## Por que eu fiz
 
-O **Central ISO** nasceu de um problema real observado em uma operação industrial: informações do SGQ distribuídas em pastas de rede, conferências manuais de documentos, certificados e não conformidades (NCs), além de forte dependência do conhecimento das pessoas para localizar e acompanhar evidências.
+O acompanhamento dependia muito de pasta de rede, checagem manual e memória de quem conhecia a organização dos arquivos. Conversando com pessoas da Qualidade, vi que parte desse trabalho podia ser transformada em verificações repetíveis e rastreáveis sem alterar os documentos oficiais.
 
-A proposta foi transformar parte desse trabalho em um pipeline determinístico e auditável, sem alterar os documentos oficiais e sem depender de serviços pagos ou de IA externa.
+O piloto lê a fonte documental em modo **somente leitura**, identifica o que mudou, extrai conteúdo localmente, aplica regras determinísticas e concentra pendências para revisão humana.
 
-**Estado real:** piloto técnico / prova de conceito funcional. O código e a arquitetura foram validados de ponta a ponta em ambiente controlado; o projeto **não é apresentado como sistema certificado, auditor ISO ou implantação corporativa em produção**.
+**Estado real:** piloto técnico / prova de conceito funcional. Ele **não é um sistema certificado, não substitui auditoria ISO e não é apresentado como implantação corporativa em produção**.
 
-## O que o projeto demonstra
+## O que o projeto mostra
 
-- levantamento de requisitos e tradução de regras de negócio em software;
-- leitura de repositório documental em modo **somente leitura**;
-- varredura incremental com **SHA-256** para idempotência e deduplicação;
+- levantamento de requisitos com stakeholders da Qualidade;
+- transformação de regra de negócio em verificação automática;
+- leitura de repositório documental em modo `read-only`;
+- SHA-256 para idempotência e reprocessamento apenas do que mudou;
 - extração local de PDF, DOCX, XLSX, ODT, TXT e CSV;
-- classificação e acompanhamento de certificados, NCs e documentos do SGQ;
-- regras determinísticas para prazos, eficácia, pendências e necessidade de confirmação humana;
-- API REST com FastAPI e persistência relacional;
-- workflows n8n para agendamento, consultas, alertas e recuperação;
+- acompanhamento de certificados, NCs e documentos do SGQ;
+- FastAPI + SQLAlchemy + SQLite/PostgreSQL;
+- workflows n8n para agenda, consulta, alertas e recuperação;
 - wrapper desktop com Tauri v2;
-- Docker Compose para execução reproduzível;
-- suíte automatizada com **32 testes aprovados** na CI da versão pública;
+- Docker Compose para ambiente reproduzível;
+- revisão humana antes de qualquer conclusão sensível.
 
-## Demonstração pública
-
-A interface incluída em `app/static/` roda com dados sintéticos de `demo_iso/`. A versão pública não inclui capturas do ambiente corporativo original; isso evita expor marcas, nomes, contagens ou detalhes de terceiros fora do contexto em que foram produzidos.
-
-O foco deste repositório é permitir que qualquer pessoa valide o fluxo pelo código, testes e demo local.
-
-## Arquitetura
+## Fluxo
 
 ```mermaid
 flowchart LR
-    A[Repositório documental<br/>SMB / demo local] -->|read-only| B[Scanner Python]
-    B --> C[Extração local<br/>PDF DOCX XLSX ODT TXT CSV]
+    A[Pastas / demo local] -->|read-only| B[Scanner Python]
+    B --> C[Extração local]
     C --> D[SHA-256 + classificação]
     D --> E[(SQLite / PostgreSQL)]
     E --> F[Rules Engine]
     F --> G[FastAPI REST]
-    G --> H[Dashboard Web / Tauri]
-    I[n8n] -->|HTTP / agenda| G
+    G --> H[Dashboard / Tauri]
+    I[n8n] -->|agenda / HTTP| G
     G --> I
     F --> J[Pendências e evidências]
-    J --> K[Validação humana]
+    J --> K[Revisão humana]
 ```
 
-A fonte documental oficial é tratada como entrada de leitura. O sistema não precisa modificar arquivos do SGQ para gerar seu inventário, seus alertas ou suas evidências.
+## Referências visuais
+
+O repositório usa **dados sintéticos e referências visuais autorizadas**. Elas servem para mostrar a ideia da interface sem publicar contagens, nomes, caminhos ou documentos do ambiente corporativo original.
+
+- [`docs/images/01-dashboard-reference.png`](docs/images/01-dashboard-reference.png)
+- [`docs/images/02-certificates-reference.png`](docs/images/02-certificates-reference.png)
+
+Essas imagens são material demonstrativo do piloto, **não prova de produção**.
 
 ## Stack
 
 | Área | Tecnologias |
-|---|---|
+| --- | --- |
 | Backend | Python, FastAPI, SQLAlchemy, Uvicorn |
-| Dados | SQLite (demo), PostgreSQL (Docker) |
+| Dados | SQLite no demo, PostgreSQL no ambiente Docker |
 | Documentos | PyMuPDF, pypdf, python-docx, openpyxl, odfpy |
-| Automação | n8n, REST, HTTP, agendamentos |
+| Automação | n8n, REST/HTTP, agendamentos |
 | Desktop | Tauri v2 / Rust |
-| Infraestrutura | Docker, Docker Compose |
+| Infra | Docker, Docker Compose |
 | Qualidade | pytest, compileall, GitHub Actions |
 
-## Executar a demonstração
+## Se quiser avaliar o código, comece aqui
 
-A configuração pública inicia em modo de demonstração e utiliza somente os arquivos sintéticos em `demo_iso/`. Certificados, fornecedores, pessoas e cenários da demo usam identificadores fictícios e não representam registros reais.
+1. [`app/`](app/) — API, domínio, scanner, regras e interface;
+2. [`n8n/`](n8n/) — workflows exportados sem credenciais;
+3. [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) — problema, decisões e limites do case;
+4. [`docs/SECURITY.md`](docs/SECURITY.md) — decisões de segurança e privacidade;
+5. [`tests/`](tests/) — testes automatizados;
+6. [`docker-compose.yml`](docker-compose.yml) — ambiente reproduzível.
 
-### Opção 1 — Python local
+## Rodar a demonstração
+
+A demo começa em modo sintético e não precisa de infraestrutura da empresa.
 
 ```bash
 python -m venv .venv
@@ -79,7 +83,7 @@ python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
 python -m pip install -r requirements.txt
 
-# Windows PowerShell
+# PowerShell
 $env:APP_DATA_MODE="demo"
 $env:ISO_SOURCE_PATH="./demo_iso"
 uvicorn app.main:app --reload --port 8877
@@ -87,69 +91,42 @@ uvicorn app.main:app --reload --port 8877
 
 Abra `http://127.0.0.1:8877`.
 
-### Opção 2 — Docker Compose
+Com Docker:
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-Serviços:
-
-- Central ISO: `http://localhost:8877`
-- Swagger/OpenAPI: `http://localhost:8877/docs`
-- n8n: `http://localhost:5678`
-
-> Os valores padrão do `.env.example` são exclusivos para demonstração. Nunca reutilize essas credenciais em um ambiente real.
-
-## Workflows n8n
-
-O diretório `n8n/` contém quatro workflows exportados sem credenciais:
-
-1. atualização e análise;
-2. consultas e relatórios;
-3. alertas e acompanhamento;
-4. erros e recuperação.
-
-Eles consomem a API do Central ISO por HTTP e demonstram a separação entre **orquestração** e **regras de domínio**.
-
 ## Segurança e privacidade
 
-A versão pública foi preparada para não depender de infraestrutura, dados ou credenciais corporativas reais.
+Algumas decisões foram intencionais desde o piloto:
 
-Principais decisões:
-
-- volume documental montado como `:ro` no Docker;
-- `.env` ignorado pelo Git;
-- nenhum token ou credencial real incluído;
-- dados de `demo_iso/` são sintéticos;
+- volume documental montado como `:ro`;
+- `.env` fora do Git;
+- nenhuma credencial real no repositório;
+- `demo_iso/` contém somente dados sintéticos;
 - processamento documental local por padrão;
 - `AI_MODE=disabled` no demo público;
-- nenhuma decisão regulatória é tomada automaticamente;
-- ações sensíveis permanecem sujeitas à validação humana.
-
-Mais detalhes em [`docs/SECURITY.md`](docs/SECURITY.md).
+- nenhuma decisão regulatória automática;
+- ações sensíveis continuam com validação humana.
 
 ## Testes
 
-```bash
-python -m pytest -q
-python -m compileall -q app scripts
-```
-
-Resultado validado nesta publicação:
+Na edição atual que estou usando como referência para esta publicação:
 
 ```text
-32 passed
+30 passed, 1 skipped
+compileall aprovado
 ```
 
-A CI também valida `Docker Compose`, executa um smoke test real da API e roda um **public-safety scan** para bloquear referências a IPs privados, nomes corporativos/terceiros removidos da demo e padrões comuns de segredos antes de aceitar alterações.
+O teste ignorado depende de uma condição de ambiente que não altera o fluxo principal da demonstração. A CI continua sendo a referência para mudanças no repositório.
 
-## Contexto profissional do case
+## O que eu faria diferente hoje
 
-O projeto foi concebido e desenvolvido individualmente, desde conversas com stakeholders da Qualidade e entendimento do processo AS-IS até arquitetura, backend, automações, interface, testes e documentação. O objetivo do piloto foi validar que regras burocráticas e repetitivas do acompanhamento documental poderiam ser convertidas em verificações automáticas e rastreáveis utilizando uma stack gratuita/open-source.
+Eu começaria separando ainda mais cedo **inventário documental**, **regras do domínio** e **interface**. O piloto mostrou que a parte mais valiosa não era “ler PDF”, e sim deixar claro **qual regra gerou cada pendência e qual evidência levou àquele alerta**.
 
-Veja o estudo de caso em [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md).
+Também manteria a mesma decisão de não depender de LLM para decidir conformidade. IA pode ajudar a localizar ou resumir informação no futuro, mas regra crítica precisa continuar explicável e revisável por quem responde pela Qualidade.
 
 ## Limites intencionais
 
@@ -162,22 +139,8 @@ Esta versão pública não afirma:
 - IA generativa/RAG em execução;
 - deploy corporativo em produção.
 
-O sistema organiza evidências e sinaliza situações para revisão; a decisão técnica e gerencial continua humana.
-
-## Estrutura do repositório
-
-```text
-app/                  FastAPI, domínio, scanner, rules engine e interface
-n8n/                  workflows exportados
-desktop/src-tauri/    wrapper desktop Tauri v2
-demo_iso/             dados sintéticos para demonstração
-tests/                testes automatizados
-scripts/              utilitários seguros para demo/validação
-docs/                 arquitetura, segurança, testes e estudo de caso
-.github/workflows/     CI
-```
-
 ## Autor
 
 **Maycon Ferreira**  
-Automação, IA aplicada, integrações e sistemas internos.
+Analista de Automação, IA e Integrações  
+[Portfólio](https://mayconxzdev.github.io/) · [LinkedIn](https://www.linkedin.com/in/maycon-ferreira-7bb870231/)
