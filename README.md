@@ -43,14 +43,13 @@ flowchart LR
     J --> K[Revisão humana]
 ```
 
-## Referências visuais
+## Referência visual
 
-O repositório usa **dados sintéticos e referências visuais autorizadas**. Elas servem para mostrar a ideia da interface sem publicar contagens, nomes, caminhos ou documentos do ambiente corporativo original.
+A imagem abaixo reúne referências visuais autorizadas do piloto com dados demonstrativos. Ela serve para mostrar a ideia da interface sem publicar contagens, nomes, caminhos ou documentos do ambiente corporativo original.
 
-- [`docs/images/01-dashboard-reference.png`](docs/images/01-dashboard-reference.png)
-- [`docs/images/02-certificates-reference.png`](docs/images/02-certificates-reference.png)
+![Referências visuais do Central ISO com dashboard e acompanhamento de certificados](https://mayconxzdev.github.io/assets/evidence/central-iso-overview.webp)
 
-Essas imagens são material demonstrativo do piloto, **não prova de produção**.
+Essa imagem é material demonstrativo do piloto, **não prova de produção**. O case completo está no meu [portfólio](https://mayconxzdev.github.io/cases/central-iso/).
 
 ## Stack
 
