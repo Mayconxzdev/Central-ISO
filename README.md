@@ -1,8 +1,22 @@
+<div align="center">
+
 # Central ISO
 
-> Piloto técnico que criei a partir de um problema real do setor de Qualidade: documentos, certificados e não conformidades espalhados em pasta de rede e conferidos manualmente.
+**Piloto técnico de Qualidade para transformar conferências documentais manuais em verificações rastreáveis, determinísticas e revisáveis.**
 
 [![CI](https://github.com/Mayconxzdev/Central-ISO/actions/workflows/ci.yml/badge.svg)](https://github.com/Mayconxzdev/Central-ISO/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white)
+![n8n](https://img.shields.io/badge/Automação-n8n-EA4B71?logo=n8n&logoColor=white)
+![Docker](https://img.shields.io/badge/Demo-Docker-2496ED?logo=docker&logoColor=white)
+
+[Case no portfólio](https://mayconxzdev.github.io/cases/central-iso/) · [Arquitetura](docs/ARCHITECTURE.md) · [Segurança](docs/SECURITY.md) · [Testes](docs/TESTING.md) · [English](README.en.md)
+
+<img src="docs/images/01-dashboard-reference.png" alt="Dashboard demonstrativo e sanitizado do Central ISO" width="100%">
+
+</div>
+
+> Piloto técnico que criei a partir de um problema real do setor de Qualidade: documentos, certificados e não conformidades espalhados em pasta de rede e conferidos manualmente.
 
 ## Por que eu fiz
 
@@ -43,13 +57,15 @@ flowchart LR
     J --> K[Revisão humana]
 ```
 
-## Referência visual
+## Referências visuais
 
-A imagem abaixo reúne referências visuais autorizadas do piloto com dados demonstrativos. Ela serve para mostrar a ideia da interface sem publicar contagens, nomes, caminhos ou documentos do ambiente corporativo original.
+As imagens abaixo são **referências autorizadas do piloto com dados demonstrativos**. Elas ajudam a explicar a interface e o fluxo sem publicar nomes, caminhos, documentos ou contagens do ambiente corporativo original.
 
-![Referências visuais do Central ISO com dashboard e acompanhamento de certificados](https://mayconxzdev.github.io/assets/evidence/central-iso-overview.webp)
+| Dashboard | Certificados |
+|---|---|
+| ![Dashboard de referência do Central ISO](docs/images/01-dashboard-reference.png) | ![Tela de referência de certificados](docs/images/02-certificates-reference.png) |
 
-Essa imagem é material demonstrativo do piloto, **não prova de produção**. O case completo está no meu [portfólio](https://mayconxzdev.github.io/cases/central-iso/).
+Elas são material demonstrativo, **não prova de produção ou de certificação**. Mais contexto está em [`docs/SCREENSHOTS.md`](docs/SCREENSHOTS.md) e no [case do portfólio](https://mayconxzdev.github.io/cases/central-iso/).
 
 ## Stack
 
@@ -112,14 +128,17 @@ Algumas decisões foram intencionais desde o piloto:
 
 ## Testes
 
-Na edição atual que estou usando como referência para esta publicação:
+A execução mais recente da CI na `main` registrou:
 
 ```text
-30 passed, 1 skipped
+32 passed
 compileall aprovado
+public-safety scan aprovado
+Docker Compose validado
+API smoke test aprovado
 ```
 
-O teste ignorado depende de uma condição de ambiente que não altera o fluxo principal da demonstração. A CI continua sendo a referência para mudanças no repositório.
+A CI é a referência para o estado atual do repositório; números históricos não são reutilizados como se fossem da versão mais recente.
 
 ## O que eu faria diferente hoje
 
