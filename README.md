@@ -160,5 +160,5 @@ Esta versão pública não afirma:
 ## Autor
 
 **Maycon Ferreira**  
-Analista de Automação, IA e Integrações  
+Analista de Automação e IA  
 [Portfólio](https://mayconxzdev.github.io/) · [LinkedIn](https://www.linkedin.com/in/maycon-ferreira-7bb870231/)
