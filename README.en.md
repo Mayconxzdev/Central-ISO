@@ -22,7 +22,7 @@
 
 The project came from a real industrial-quality problem: controlled documents, certificates and nonconformity records were spread across network folders and required recurring manual checks. The pilot validates that part of this work can be converted into a deterministic, auditable pipeline without modifying official source files.
 
-**Real status:** functional proof of concept / technical pilot. It is not presented as an ISO-certified system, an automated auditor, or a production corporate deployment.
+**Status:** functional technical pilot. It is not certified, does not replace an ISO audit, and is not deployed in production.
 
 ## Highlights
 

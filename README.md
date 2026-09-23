@@ -24,7 +24,7 @@ O acompanhamento dependia muito de pasta de rede, checagem manual e memória de 
 
 O piloto lê a fonte documental em modo **somente leitura**, identifica o que mudou, extrai conteúdo localmente, aplica regras determinísticas e concentra pendências para revisão humana.
 
-**Estado real:** piloto técnico / prova de conceito funcional. Ele **não é um sistema certificado, não substitui auditoria ISO e não é apresentado como implantação corporativa em produção**.
+**Estado atual:** piloto técnico funcional. Não é certificado, não substitui uma auditoria ISO e não está implantado em produção.
 
 ## O que o projeto mostra
 
