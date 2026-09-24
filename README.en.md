@@ -12,7 +12,7 @@
 
 [Portfolio case](https://mayconxzdev.github.io/en/cases/central-iso/) · [Architecture](docs/ARCHITECTURE.md) · [Security](docs/SECURITY.md) · [Testing](docs/TESTING.md) · [Português](README.md)
 
-<img src="docs/images/01-dashboard-reference.png" alt="Sanitized demonstrative Central ISO dashboard" width="100%">
+<img src="docs/images/central-iso-demo.webp" alt="Sanitized demonstration of the dashboard and certificate view" width="100%">
 
 </div>
 
@@ -61,9 +61,7 @@ Evidence + human review
 
 These are **authorized demonstrative references of the pilot**. They explain the interface without exposing corporate documents, paths, names or operational counts.
 
-| Dashboard | Certificates |
-|---|---|
-| ![Central ISO reference dashboard](docs/images/01-dashboard-reference.png) | ![Central ISO certificate reference](docs/images/02-certificates-reference.png) |
+![Demonstration of the dashboard and certificate view](docs/images/central-iso-demo.webp)
 
 They are not presented as production or certification proof. See [`docs/SCREENSHOTS.md`](docs/SCREENSHOTS.md) for the evidence boundary.
 
