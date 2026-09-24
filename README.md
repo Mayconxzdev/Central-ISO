@@ -12,7 +12,7 @@
 
 [Case no portfólio](https://mayconxzdev.github.io/cases/central-iso/) · [Arquitetura](docs/ARCHITECTURE.md) · [Segurança](docs/SECURITY.md) · [Testes](docs/TESTING.md) · [English](README.en.md)
 
-<img src="docs/images/01-dashboard-reference.png" alt="Dashboard demonstrativo e sanitizado do Central ISO" width="100%">
+<img src="docs/images/central-iso-demo.webp" alt="Visão demonstrativa e anonimizada do painel e dos certificados" width="100%">
 
 </div>
 
@@ -61,9 +61,7 @@ flowchart LR
 
 As imagens abaixo são **referências autorizadas do piloto com dados demonstrativos**. Elas ajudam a explicar a interface e o fluxo sem publicar nomes, caminhos, documentos ou contagens do ambiente corporativo original.
 
-| Dashboard | Certificados |
-|---|---|
-| ![Dashboard de referência do Central ISO](docs/images/01-dashboard-reference.png) | ![Tela de referência de certificados](docs/images/02-certificates-reference.png) |
+![Visão demonstrativa do painel e dos certificados](docs/images/central-iso-demo.webp)
 
 Elas são material demonstrativo, **não prova de produção ou de certificação**. Mais contexto está em [`docs/SCREENSHOTS.md`](docs/SCREENSHOTS.md) e no [case do portfólio](https://mayconxzdev.github.io/cases/central-iso/).
 
